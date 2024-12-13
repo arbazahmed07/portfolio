@@ -56,8 +56,8 @@ export const Banner = () => {
               {({ isVisible }) =>
               <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
                 <span className="tagline">Welcome to my Portfolio</span>
-                <h1>{`Hi! I'm Judy`} <span className="txt-rotate" dataPeriod="1000" data-rotate='[ "Web Developer", "Web Designer", "UI/UX Designer" ]'><span className="wrap">{text}</span></span></h1>
-                  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                <h1>{`Hi! I'm Arbaz`} <span className="txt-rotate" dataPeriod="1000" data-rotate='[ "Web Developer", "Web Designer" ]'><span className="wrap">{text}</span></span></h1>
+                  <p>"Hello, I’m Arbaz, a second-year Computer Science and Engineering student at VNR VJIET with a deep passion for technology and problem-solving. My expertise lies in web development,and competitive programming. I thrive on creating impactful solutions, from designing user-friendly interfaces to optimizing complex systems. Through my journey, I’ve worked on diverse projects, including a Farm Connect app, a blog application, and a user management system. Constantly learning and evolving, I aim to contribute to meaningful projects that blend innovation and functionality. Let’s connect and bring ideas to life!"</p>
                   <button onClick={() => console.log('connect')}>Let’s Connect <ArrowRightCircle size={25} /></button>
               </div>}
             </TrackVisibility>

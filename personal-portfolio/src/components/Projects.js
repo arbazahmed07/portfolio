@@ -1,45 +1,36 @@
 import { Container, Row, Col, Tab, Nav } from "react-bootstrap";
 import { ProjectCard } from "./ProjectCard";
-import projImg1 from "../assets/img/project-img1.png";
-import projImg2 from "../assets/img/project-img2.png";
-import projImg3 from "../assets/img/project-img3.png";
+import farmc from "../assets/img/farmC.jpeg";
+import blog from "../assets/img/blog.png";
+import anime from "../assets/img/anime.png";
+import user from "../assets/img/user.png"
 import colorSharp2 from "../assets/img/color-sharp2.png";
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
 
 export const Projects = () => {
-
   const projects = [
     {
-      title: "Business Startup",
-      description: "Design & Development",
-      imgUrl: projImg1,
+      title: "Farm Connect App",
+      description: "A platform connecting farmers directly to retailers, eliminating middlemen and enhancing profits.",
+      imgUrl: farmc,
     },
     {
-      title: "Business Startup",
-      description: "Design & Development",
-      imgUrl: projImg2,
+      title: "Blog App",
+      description: "A full-stack application for publishing and managing blogs with user authentication.",
+      imgUrl: blog,
     },
     {
-      title: "Business Startup",
-      description: "Design & Development",
-      imgUrl: projImg3,
+      title: "User Management App",
+      description: "A system for managing user data, roles, and profiles effectively.",
+      imgUrl: user,
     },
+   
     {
-      title: "Business Startup",
-      description: "Design & Development",
-      imgUrl: projImg1,
-    },
-    {
-      title: "Business Startup",
-      description: "Design & Development",
-      imgUrl: projImg2,
-    },
-    {
-      title: "Business Startup",
-      description: "Design & Development",
-      imgUrl: projImg3,
-    },
+      title: "Anime Explorer",
+      description: "A React app showcasing popular anime with detailed information and recommendations.",
+      imgUrl: anime,
+    }
   ];
 
   return (
@@ -51,40 +42,62 @@ export const Projects = () => {
               {({ isVisible }) =>
               <div className={isVisible ? "animate__animated animate__fadeIn": ""}>
                 <h2>Projects</h2>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                <p>Here are some of the key projects I've worked on, showcasing my expertise in web development, app development, and data science. Each project is designed to solve real-world problems and provide user-centric solutions.</p>
                 <Tab.Container id="projects-tabs" defaultActiveKey="first">
                   <Nav variant="pills" className="nav-pills mb-5 justify-content-center align-items-center" id="pills-tab">
                     <Nav.Item>
-                      <Nav.Link eventKey="first">Tab 1</Nav.Link>
+                      <Nav.Link eventKey="first" className="">Web Development</Nav.Link>
                     </Nav.Item>
-                    <Nav.Item>
-                      <Nav.Link eventKey="second">Tab 2</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                      <Nav.Link eventKey="third">Tab 3</Nav.Link>
-                    </Nav.Item>
+                    {/* <Nav.Item>
+                      <Nav.Link eventKey="second">App Development</Nav.Link>
+                    </Nav.Item> */}
+                    {/* <Nav.Item>
+                      <Nav.Link eventKey="third">Other Projects</Nav.Link>
+                    </Nav.Item> */}
                   </Nav>
                   <Tab.Content id="slideInUp" className={isVisible ? "animate__animated animate__slideInUp" : ""}>
                     <Tab.Pane eventKey="first">
                       <Row>
                         {
-                          projects.map((project, index) => {
+                          projects.slice(0, 4).map((project, index) => {
                             return (
                               <ProjectCard
                                 key={index}
                                 {...project}
-                                />
-                            )
+                              />
+                            );
                           })
                         }
                       </Row>
                     </Tab.Pane>
-                    <Tab.Pane eventKey="section">
-                      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque quam, quod neque provident velit, rem explicabo excepturi id illo molestiae blanditiis, eligendi dicta officiis asperiores delectus quasi inventore debitis quo.</p>
+                    {/* <Tab.Pane eventKey="second">
+                      <Row>
+                        {
+                          projects.slice(3, 5).map((project, index) => {
+                            return (
+                              <ProjectCard
+                                key={index}
+                                {...project}
+                              />
+                            );
+                          })
+                        }
+                      </Row>
                     </Tab.Pane>
                     <Tab.Pane eventKey="third">
-                      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque quam, quod neque provident velit, rem explicabo excepturi id illo molestiae blanditiis, eligendi dicta officiis asperiores delectus quasi inventore debitis quo.</p>
-                    </Tab.Pane>
+                      <Row>
+                        {
+                          projects.slice(5).map((project, index) => {
+                            return (
+                              <ProjectCard
+                                key={index}
+                                {...project}
+                              />
+                            );
+                          })
+                        }
+                      </Row>
+                    </Tab.Pane> */}
                   </Tab.Content>
                 </Tab.Container>
               </div>}
@@ -92,7 +105,7 @@ export const Projects = () => {
           </Col>
         </Row>
       </Container>
-      <img className="background-image-right" src={colorSharp2}></img>
+      <img className="background-image-right" src={colorSharp2} alt="Background"></img>
     </section>
-  )
-}
+  );
+};
