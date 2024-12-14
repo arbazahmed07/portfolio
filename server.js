@@ -2,13 +2,31 @@ const express = require("express");
 const router = express.Router();
 const cors = require("cors");
 const nodemailer = require("nodemailer");
+const mongoose = require("mongoose");
 require('dotenv').config();
 
-// server used to send send emails
+// Server used to send emails
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/", router);
+
+// MongoDB Connection
+const mongoURI = process.env.MONGODB_URI || "mongodb://localhost:27017/email_logs"; // Replace with your MongoDB URI
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((error) => console.error("Error connecting to MongoDB:", error));
+
+// MongoDB Schema and Model
+const emailSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  phone: String,
+  message: String,
+  sentAt: { type: Date, default: Date.now }, // Automatically store timestamp
+});
+
+const EmailLog = mongoose.model("EmailLog", emailSchema);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server Running on port ${port}`));
@@ -25,7 +43,7 @@ const contactEmail = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: emailUser,
-    pass: emailPass
+    pass: emailPass,
   },
 });
 
@@ -37,19 +55,17 @@ contactEmail.verify((error) => {
   }
 });
 
-router.post("/contact", (req, res) => {
+router.post("/contact", async (req, res) => {
   console.log("Request received:", req.body); // Log the incoming data
 
   // Validate request fields
-  if (!req.body.firstName || !req.body.lastName || !req.body.email || !req.body.message || !req.body.phone) {
+  const { firstName, lastName, email, message, phone } = req.body;
+
+  if (!firstName || !lastName || !email || !message || !phone) {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
-  const name = req.body.firstName + " " + req.body.lastName;
-  // const name = req.body.firstName;
-  const email = req.body.email;
-  const message = req.body.message;
-  const phone = req.body.phone;
+  const name = `${firstName} ${lastName}`;
 
   const mail = {
     from: name,
@@ -61,12 +77,19 @@ router.post("/contact", (req, res) => {
            <p>Message: ${message}</p>`,
   };
 
-  contactEmail.sendMail(mail, (error) => {
-    if (error) {
-      console.error("Error sending mail:", error); // Log the error
-      res.status(500).json({ error: "Failed to send email" });
-    } else {
-      res.status(200).json({ message: "Message Sent" });
-    }
-  });
+  try {
+    // Send the email
+    await contactEmail.sendMail(mail);
+
+    // Save email log to MongoDB
+    const emailLog = new EmailLog({ name, email, phone, message });
+    await emailLog.save();
+
+    console.log("Email log saved to MongoDB:", emailLog);
+
+    res.status(200).json({ message: "Message Sent and Logged in Database" });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: "Failed to send email" });
+  }
 });
