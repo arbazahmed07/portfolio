@@ -5,7 +5,7 @@ const nodemailer = require("nodemailer");
 const mongoose = require("mongoose");
 require('dotenv').config();
 
-// Server used to send emails
+// Express setup
 const app = express();
 app.use(cors());
 app.use(express.json());
